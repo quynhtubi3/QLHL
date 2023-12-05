@@ -10,6 +10,7 @@ namespace QLHL.Datas
         public int lectureID { get; set; }
         [Required]
         public int coursePartID { get; set; }
+        public int index { get; set; }
         [Required]
         public string lectureTitle { get; set; }
         [Required]

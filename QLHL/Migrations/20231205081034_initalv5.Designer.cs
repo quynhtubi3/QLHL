@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLHL.Context;
 
@@ -11,9 +12,10 @@ using QLHL.Context;
 namespace QLHL.Migrations
 {
     [DbContext(typeof(QLHLContext))]
-    partial class QLHLContextModelSnapshot : ModelSnapshot
+    [Migration("20231205081034_initalv5")]
+    partial class initalv5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,6 +239,9 @@ namespace QLHL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("examID"), 1L, 1);
 
+                    b.Property<int?>("courseID")
+                        .HasColumnType("int");
+
                     b.Property<int>("coursePartID")
                         .HasColumnType("int");
 
@@ -267,6 +272,8 @@ namespace QLHL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("examID");
+
+                    b.HasIndex("courseID");
 
                     b.HasIndex("coursePartID");
 
@@ -347,9 +354,6 @@ namespace QLHL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("duration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("index")
                         .HasColumnType("int");
 
                     b.Property<bool>("isAvailable")
@@ -712,6 +716,10 @@ namespace QLHL.Migrations
 
             modelBuilder.Entity("QLHL.Datas.Exam", b =>
                 {
+                    b.HasOne("QLHL.Datas.Course", null)
+                        .WithMany("Assignments")
+                        .HasForeignKey("courseID");
+
                     b.HasOne("QLHL.Datas.CoursePart", "CoursePart")
                         .WithMany()
                         .HasForeignKey("coursePartID")
@@ -823,6 +831,8 @@ namespace QLHL.Migrations
 
             modelBuilder.Entity("QLHL.Datas.Course", b =>
                 {
+                    b.Navigation("Assignments");
+
                     b.Navigation("CourseParts");
                 });
 

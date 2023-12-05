@@ -90,7 +90,7 @@ namespace QLHL.Repo
             {
                 foreach (var Exam in _context.Exams.ToList())
                 {
-                    if (Exam.Courses.courseID == enrollment.courseID)
+                    if (Exam.CoursePart.courseID == enrollment.courseID)
                     {
                         ExamModelForStudent model = new ExamModelForStudent()
                         {

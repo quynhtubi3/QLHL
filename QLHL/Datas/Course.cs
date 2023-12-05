@@ -17,7 +17,6 @@ namespace QLHL.Datas
         public DateTime updateAt { get; set; }
 
         public Tutor tutor { get; set; }
-        public IEnumerable<Exam> Assignments { get; set; }
         public IEnumerable<CoursePart> CourseParts { get; set; }
     }
 }

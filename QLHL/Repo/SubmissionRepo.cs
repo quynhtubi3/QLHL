@@ -27,7 +27,7 @@ namespace QLHL.Repo
             {
                 var currentexam = _context.Exams.FirstOrDefault(x => x.examID == submissionModel.examID);
                 var currentEnrollment = _context.Enrollments.
-                    FirstOrDefault(x => x.studentID == submissionModel.studentID && x.courseID == currentexam.Courses.courseID);
+                    FirstOrDefault(x => x.studentID == submissionModel.studentID && x.courseID == currentexam.CoursePart.courseID);
                 var lstEnroll = _context.Enrollments.Where(x => x.studentID == submissionModel.studentID).ToList();
                 if (currentEnrollment != null && currentEnrollment.statusTypeID != 2 && currentEnrollment.statusTypeID != 3 && currentEnrollment.statusTypeID != 4)
                 {
@@ -57,7 +57,7 @@ namespace QLHL.Repo
                                 _feeRepo.Add(new FeeModel()
                                 {
                                     cost = 100000,
-                                    courseID = currentexam.Courses.courseID,
+                                    courseID = currentexam.CoursePart.courseID,
                                     studenID = submissionModel.studentID
                                 });
                                 return ErrorType.Succeed;
@@ -176,7 +176,7 @@ namespace QLHL.Repo
                     bool checkCourse = false;
                     foreach (var enroll in lstEnroll)
                     {
-                        if (enroll.courseID == currentexam.Courses.courseID)
+                        if (enroll.courseID == currentexam.CoursePart.courseID)
                         {
                             checkCourse = true;
                             break;
@@ -207,7 +207,7 @@ namespace QLHL.Repo
                 var lstEnroll = _context.Enrollments.Where(x => x.studentID == student.studentID).ToList();
                 foreach (var enroll in lstEnroll)
                 {
-                    var lstexam = _context.Exams.Where(x => x.Courses.courseID == enroll.courseID).ToList();
+                    var lstexam = _context.Exams.Where(x => x.CoursePart.courseID == enroll.courseID).ToList();
                     foreach (var exam in lstexam)
                     {
                         Random random = new Random();

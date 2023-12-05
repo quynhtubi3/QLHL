@@ -125,7 +125,7 @@ namespace QLHL.Controllers
         [HttpPut("changePassword"), Authorize(Roles = "Student, Admin, Tutor")]
         public IActionResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
+            var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
             var res = _accountRepo.ChangePassword(userName, changePasswordModel);
             if (res == true) return Ok("Password changed!");
             return BadRequest("Invalid password!");

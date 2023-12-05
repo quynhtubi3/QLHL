@@ -46,14 +46,14 @@ namespace QLHL.Controllers
             return NotFound("Not exist!");
         }
         [HttpGet("kh/{id}"), Authorize(Roles = "Admin, Tutor")]
-        public IActionResult GetByKh(Pagination pagination, int id)
+        public IActionResult GetByKh([FromQuery]Pagination pagination, int id)
         {
             var res = _lectureRepo.GetByCoursePartId(pagination, id);
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
         [HttpGet("forStudent"), Authorize(Roles = "Student")]
-        public IActionResult GetByStudent(Pagination pagination)
+        public IActionResult GetByStudent([FromQuery]Pagination pagination)
         {
             var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
             var res = _lectureRepo.GetByStudent(pagination, userName);

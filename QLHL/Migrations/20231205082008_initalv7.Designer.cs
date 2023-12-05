@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLHL.Context;
 
@@ -11,9 +12,10 @@ using QLHL.Context;
 namespace QLHL.Migrations
 {
     [DbContext(typeof(QLHLContext))]
-    partial class QLHLContextModelSnapshot : ModelSnapshot
+    [Migration("20231205082008_initalv7")]
+    partial class initalv7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -24,6 +24,7 @@ namespace QLHL.Repo
                 cost = courseModel.Cost,
                 createAt = DateTime.Now,
                 updateAt = DateTime.Now,
+                tutorID = courseModel.tutorID,
             };
             _context.Courses.Add(course);
             _context.SaveChanges();

@@ -19,6 +19,7 @@ namespace QLHL.Repo
             var check = _context.CourseParts.Any(x => x.coursePartID == lectureModel.coursePartID);
             if (check)
             {
+                var length = _context.CourseParts.Where(x => x.coursePartID == lectureModel.coursePartID).Count();
                 Lecture lecture = new Lecture()
                 {
                     coursePartID = lectureModel.coursePartID,
@@ -29,7 +30,8 @@ namespace QLHL.Repo
                     isWatching = false,
                     isAvailable = false,
                     createAt = DateTime.Now,
-                    updateAt = DateTime.Now
+                    updateAt = DateTime.Now,
+                    index = length + 1,
                 };
                 _context.Lectures.Add(lecture);
                 _context.SaveChanges();
@@ -81,18 +83,21 @@ namespace QLHL.Repo
             List<LectureModel> res = new List<LectureModel>();
             foreach (var enroll in lstEnroll)
             {
-                foreach (var lecture in _context.Lectures.ToList())
+                foreach (var coursePart in _context.CourseParts.ToList())
                 {
-                    if (lecture.CoursePart.courseID == enroll.courseID)
+                    if (coursePart.courseID == enroll.courseID)
                     {
-                        LectureModel model = new LectureModel()
+                        foreach (var lecture in _context.Lectures.Where(x => x.coursePartID == coursePart.coursePartID))
                         {
-                            coursePartID = lecture.coursePartID,
-                            duration = lecture.duration,
-                            lectureLink = lecture.lectureLink,
-                            lectureTitle = lecture.lectureTitle
-                        };
-                        res.Add(model);
+                            LectureModel model = new LectureModel()
+                            {
+                                coursePartID = lecture.coursePartID,
+                                duration = lecture.duration,
+                                lectureLink = lecture.lectureLink,
+                                lectureTitle = lecture.lectureTitle
+                            };
+                            res.Add(model);
+                        }
                     }
                 }
             }

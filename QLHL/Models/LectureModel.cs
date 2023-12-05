@@ -6,6 +6,7 @@ namespace QLHL.Models
     {
         [Required]
         public int coursePartID { get; set; }
+        public int index { get; set; }
         [Required]
         public string lectureTitle { get; set; }
         [Required]

@@ -238,7 +238,7 @@ namespace QLHL.Repo
         {
             var authClaims = new List<Claim>
             {
-                new Claim("email", Convert.ToString(email)),
+                new Claim("username", Convert.ToString(email)),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, decentralization)
             };

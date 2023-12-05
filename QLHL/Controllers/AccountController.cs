@@ -22,7 +22,7 @@ namespace QLHL.Controllers
         [HttpPost("upload-avatar"), Authorize]
         public async Task<IActionResult> UploadFiles(IFormFile file)
         {
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
             var currentAccount = _context.Accounts.FirstOrDefault(x => x.email == email);
             string url = await UplloadFile.UploadFile(file);
             currentAccount.avatar = url;
@@ -125,7 +125,7 @@ namespace QLHL.Controllers
         [HttpPut("changePassword"), Authorize(Roles = "Student, Admin, Tutor")]
         public IActionResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+            var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
             var res = _accountRepo.ChangePassword(userName, changePasswordModel);
             if (res == true) return Ok("Password changed!");
             return BadRequest("Invalid password!");

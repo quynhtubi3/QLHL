@@ -10,12 +10,12 @@ namespace QLHL.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class CoursePartController : ControllerBase
     {
-        private readonly ICourseRepo _courseRepo;
-        public CourseController()
+        private readonly ICoursePartRepo _courseRepo;
+        public CoursePartController()
         {
-            _courseRepo = new CourseRepo();
+            _courseRepo = new CoursePartRepo();
         }
         [HttpGet("{id}"), Authorize(Roles = "Admin")]
         public ActionResult GetById(int id)
@@ -32,7 +32,7 @@ namespace QLHL.Controllers
             return BadRequest("Null");
         }
         [HttpPost, Authorize(Roles = "Admin")]
-        public IActionResult Add(CourseModel model)
+        public IActionResult Add(CoursePartModel model)
         {
             var res = _courseRepo.Add(model);
             if (res == ErrorType.Succeed) return Ok("Added");
@@ -42,13 +42,6 @@ namespace QLHL.Controllers
         public IActionResult Delete(int id)
         {
             var res = _courseRepo.Delete(id);
-            if (res == ErrorType.Succeed) return Ok("Added");
-            return NotFound("Not exist!");
-        }
-        [HttpPut("{id}"), Authorize(Roles = "Admin")]
-        public IActionResult Update(int id, CourseModel model)
-        {
-            var res = _courseRepo.Update(id, model);
             if (res == ErrorType.Succeed) return Ok("Added");
             return NotFound("Not exist!");
         }

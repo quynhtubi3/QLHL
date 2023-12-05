@@ -57,6 +57,27 @@ namespace QLHL.Repo
             return null;
         }
 
+        public PageResult<Course> GetByStudent(Pagination pagination, string username)
+        {
+            var currentAccount = _context.Accounts.FirstOrDefault(x => x.email == username);
+            var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == currentAccount.accountID);
+            var lstEnroll = _context.Enrollments.Where(x => x.studentID == currentStudent.studentID).ToList();
+            List<Course> lst = new List<Course>();
+            foreach(var item in lstEnroll)
+            {
+                foreach(var course in _context.Courses.ToList())
+                {
+                    if (course.courseID == item.courseID)
+                    {
+                        lst.Add(course);
+                    }
+                }
+            }
+            var res = PageResult<Course>.ToPageResult(pagination, lst);
+            pagination.totalCount = lst.Count();
+            return new PageResult<Course>(pagination, res);
+        }
+
         public ErrorType Update(int id, CourseModel courseModel)
         {
             var currentCourse = _context.Courses.FirstOrDefault(x => x.courseID == id);

@@ -10,12 +10,12 @@ namespace QLHL.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoursePartController : ControllerBase
+    public class CourseController : ControllerBase
     {
-        private readonly ICoursePartRepo _courseRepo;
-        public CoursePartController()
+        private readonly ICourseRepo _courseRepo;
+        public CourseController()
         {
-            _courseRepo = new CoursePartRepo();
+            _courseRepo = new CourseRepo();
         }
         [HttpGet("{id}"), Authorize(Roles = "Admin")]
         public ActionResult GetById(int id)
@@ -25,14 +25,22 @@ namespace QLHL.Controllers
             return NotFound("Not exist");
         }
         [HttpGet, Authorize(Roles = "Admin, Student")]
-        public IActionResult GetAll([FromQuery]Pagination pagination, int id)
+        public IActionResult GetAll([FromQuery]Pagination pagination)
         {
             var res = _courseRepo.GetAll(pagination);
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
+        [HttpGet, Authorize(Roles = "Student")]
+        public IActionResult GetByStudent([FromQuery]Pagination pagination)
+        {
+            var username = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
+            var res = _courseRepo.GetByStudent(pagination, username);
+            if (res.data.Count() != 0) return Ok(res);
+            return BadRequest("Null");
+        }
         [HttpPost, Authorize(Roles = "Admin")]
-        public IActionResult Add(CoursePartModel model)
+        public IActionResult Add(CourseModel model)
         {
             var res = _courseRepo.Add(model);
             if (res == ErrorType.Succeed) return Ok("Added");

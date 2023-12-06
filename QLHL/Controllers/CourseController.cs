@@ -31,8 +31,8 @@ namespace QLHL.Controllers
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
-        [HttpGet, Authorize(Roles = "Student")]
-        public IActionResult GetByStudent([FromQuery]Pagination pagination)
+        [HttpGet("forStudent"), Authorize(Roles = "Student")]
+        public IActionResult GetByStudent([FromQuery] Pagination pagination)
         {
             var username = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
             var res = _courseRepo.GetByStudent(pagination, username);

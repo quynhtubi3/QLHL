@@ -159,7 +159,7 @@ namespace QLHL.Controllers
             return NotFound();
         }
         [HttpPost("ForgetPassword"), AllowAnonymous]
-        public IActionResult ForgetPassword(ForgetPasswordModel model)
+        public IActionResult ForgetPassword([FromQuery]ForgetPasswordModel model)
         {
             var res = _accountRepo.ChangePasswordAfterForgot(model.model1, model.model2);
             if (res == "None") return BadRequest();

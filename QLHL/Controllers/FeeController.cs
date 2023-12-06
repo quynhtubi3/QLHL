@@ -18,7 +18,7 @@ namespace QLHL.Controllers
             _feeRepo = new FeeRepo();
         }
         [HttpPost, Authorize(Roles = "Admin")]
-        public IActionResult Add(FeeModel model)
+        public IActionResult Add([FromQuery] FeeModel model)
         {
             var res = _feeRepo.Add(model);
             if (res == ErrorType.Succeed) return Ok("Added!");
@@ -32,7 +32,7 @@ namespace QLHL.Controllers
             return NotFound();
         }
         [HttpGet("forStudent"), Authorize(Roles = "Student")]
-        public IActionResult ForStudent(Pagination pagination)
+        public IActionResult ForStudent([FromQuery]Pagination pagination)
         {
             var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
             var res = _feeRepo.forStudent(userName, pagination);
@@ -40,7 +40,7 @@ namespace QLHL.Controllers
             return NotFound();
         }
         [HttpGet, Authorize(Roles = "Admin")]
-        public IActionResult GetAll(Pagination pagination)
+        public IActionResult GetAll([FromQuery] Pagination pagination)
         {
             var res = _feeRepo.GetAll(pagination);
             return Ok(res);

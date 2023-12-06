@@ -209,7 +209,7 @@ namespace QLHL.Repo
                     avatar = null,
                     password = HashPassword(signUpModel.password),
                     status = "Working",
-                    decentralizationId = 3,
+                    decentralizationId = 2,
                     resetPasswordToken = string.Empty,
                     resetPasswordTokenExpiry = null,
                     createAt = DateTime.Now,

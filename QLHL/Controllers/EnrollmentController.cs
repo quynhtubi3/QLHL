@@ -32,7 +32,7 @@ namespace QLHL.Controllers
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
-        [HttpPost, Authorize(Roles = "Admin")]
+        [HttpPost, Authorize(Roles = "Admin, Student")]
         public IActionResult Add(EnrollmentModel model)
         {
             var res = _enrollmentRepo.Add(model);

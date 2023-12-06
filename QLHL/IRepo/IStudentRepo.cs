@@ -15,5 +15,6 @@ namespace QLHL.IRepo
         ErrorType Update(int id, StudentModel studentModel);
         ErrorType UpdateTotalMoney(int id, int money, int type);
         bool UpdateInfomation(string userName, UpdateInfo4Student model);
+        int GetTotalMoney(string username);
     }
 }

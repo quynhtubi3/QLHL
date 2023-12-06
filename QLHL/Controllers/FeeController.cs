@@ -45,7 +45,7 @@ namespace QLHL.Controllers
             var res = _feeRepo.GetAll(pagination);
             return Ok(res);
         }
-        [HttpPut("payFee/{id}"), Authorize(Roles = "Student")]
+        [HttpPost("payFee/{id}"), Authorize(Roles = "Student")]
         public IActionResult PayFee(int id)
         {
             var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;

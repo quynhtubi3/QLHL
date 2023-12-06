@@ -69,5 +69,12 @@ namespace QLHL.Controllers
             var res = _studentRepo.UpdateInfomation(userName, model);
             return Ok("Done!");
         }
+        [HttpGet("getTotalMoney"), Authorize(Roles = "Student")]
+        public IActionResult GetTotalMoney()
+        {
+            var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
+            var res = _studentRepo.GetTotalMoney(userName);
+            return Ok(res);
+        }
     }
 }

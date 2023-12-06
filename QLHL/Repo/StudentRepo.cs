@@ -65,6 +65,13 @@ namespace QLHL.Repo
             return fail;
         }
 
+        public int GetTotalMoney(string username)
+        {
+            var currentAccount = _context.Accounts.FirstOrDefault(x => x.email == username);
+            var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == currentAccount.accountID);
+            return currentStudent.totalMoney;
+        }
+
         public ErrorType Remove(int id)
         {
             var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == id);

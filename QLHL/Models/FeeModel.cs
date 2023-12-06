@@ -10,5 +10,6 @@ namespace QLHL.Models
         public int courseID { get; set; }
         [Required]
         public int cost { get; set; }
+        public bool isChecked { get; set; }
     }
 }

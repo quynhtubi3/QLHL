@@ -16,6 +16,7 @@ namespace QLHL.Datas
         public int cost { get; set; }
         [Required]
         public string status { get; set; }
+        public bool isChecked { get; set; }
 
         public Student Student { get; set; }    
         public DateTime createAt { get; set; }

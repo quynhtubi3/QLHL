@@ -30,6 +30,7 @@ namespace QLHL.Repo
                     courseID = feeModel.courseID,
                     cost = feeModel.cost,
                     status = "Not Yet",
+                    isChecked = false,
                     createAt = DateTime.Now,
                     updateAt = DateTime.Now
                 };
@@ -124,6 +125,8 @@ namespace QLHL.Repo
             var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == currentAccount.accountID);
             if (currentFee != null)
             {
+                Console.WriteLine(currentStudent.totalMoney);
+                Console.WriteLine(currentFee.cost);
                 if (currentStudent.totalMoney >= currentFee.cost)
                 {
                     ChangeStatus(id);

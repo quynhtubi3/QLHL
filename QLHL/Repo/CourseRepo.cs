@@ -66,10 +66,14 @@ namespace QLHL.Repo
             foreach(var item in lstEnroll)
             {
                 foreach(var course in _context.Courses.ToList())
-                {
+                {                    
                     if (course.courseID == item.courseID)
                     {
-                        lst.Add(course);
+                        var check = _context.Fees.FirstOrDefault(x => x.studentID == currentStudent.studentID && x.courseID == course.courseID);
+                        if (check != null && check.status == "Done")
+                        {
+                            lst.Add(course);
+                        }                        
                     }
                 }
             }

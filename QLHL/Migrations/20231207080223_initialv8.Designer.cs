@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLHL.Context;
 
@@ -11,9 +12,10 @@ using QLHL.Context;
 namespace QLHL.Migrations
 {
     [DbContext(typeof(QLHLContext))]
-    partial class QLHLContextModelSnapshot : ModelSnapshot
+    [Migration("20231207080223_initialv8")]
+    partial class initialv8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,7 +85,7 @@ namespace QLHL.Migrations
                     b.Property<DateTime>("createAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("questionID")
+                    b.Property<int>("examID")
                         .HasColumnType("int");
 
                     b.Property<bool>("rightAnswer")
@@ -94,7 +96,7 @@ namespace QLHL.Migrations
 
                     b.HasKey("answerID");
 
-                    b.HasIndex("questionID");
+                    b.HasIndex("examID");
 
                     b.ToTable("Answers");
                 });
@@ -444,34 +446,6 @@ namespace QLHL.Migrations
                     b.ToTable("PaymentTypes");
                 });
 
-            modelBuilder.Entity("QLHL.Datas.Question", b =>
-                {
-                    b.Property<int>("questionID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("questionID"), 1L, 1);
-
-                    b.Property<DateTime>("createAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("examID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("questionName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("updateAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("questionID");
-
-                    b.HasIndex("examID");
-
-                    b.ToTable("Questions");
-                });
-
             modelBuilder.Entity("QLHL.Datas.StatusType", b =>
                 {
                     b.Property<int>("statusTypeID")
@@ -694,13 +668,13 @@ namespace QLHL.Migrations
 
             modelBuilder.Entity("QLHL.Datas.Answer", b =>
                 {
-                    b.HasOne("QLHL.Datas.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("questionID")
+                    b.HasOne("QLHL.Datas.Exam", "Exam")
+                        .WithMany("Answers")
+                        .HasForeignKey("examID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Question");
+                    b.Navigation("Exam");
                 });
 
             modelBuilder.Entity("QLHL.Datas.Course", b =>
@@ -804,17 +778,6 @@ namespace QLHL.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("QLHL.Datas.Question", b =>
-                {
-                    b.HasOne("QLHL.Datas.Exam", "Exam")
-                        .WithMany("Question")
-                        .HasForeignKey("examID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Exam");
-                });
-
             modelBuilder.Entity("QLHL.Datas.Student", b =>
                 {
                     b.HasOne("QLHL.Datas.Account", "Account")
@@ -883,7 +846,7 @@ namespace QLHL.Migrations
 
             modelBuilder.Entity("QLHL.Datas.Exam", b =>
                 {
-                    b.Navigation("Question");
+                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("QLHL.Datas.ExamType", b =>

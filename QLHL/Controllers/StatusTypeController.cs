@@ -41,14 +41,14 @@ namespace QLHL.Controllers
             if (res == ErrorType.Succeed) return Ok("Succeed");
             return NotFound("Not exist");
         }
-        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("d/{id}"), Authorize(Roles = "Admin")]
         public IActionResult Remove(int id)
         {
             var res = _statusTypeRepo.Delete(id);
             if (res == ErrorType.Succeed) return Ok("Succeed");
             return NotFound("Not exist");
         }
-        [HttpPut("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("u/{id}"), Authorize(Roles = "Admin")]
         public IActionResult Update(int id, StatusTypeModel studentModel)
         {
             var res = _statusTypeRepo.Update(id, studentModel);

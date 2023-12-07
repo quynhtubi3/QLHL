@@ -122,7 +122,7 @@ namespace QLHL.Controllers
             if (res == true) return Ok("Added!");
             return BadRequest();
         }
-        [HttpPut("changePassword"), Authorize(Roles = "Student, Admin, Tutor")]
+        [HttpPost("changePassword"), Authorize(Roles = "Student, Admin, Tutor")]
         public IActionResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
             var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
@@ -130,7 +130,7 @@ namespace QLHL.Controllers
             if (res == true) return Ok("Password changed!");
             return BadRequest("Invalid password!");
         }
-        [HttpPut("changeStatus"), Authorize(Roles = "Admin")]
+        [HttpPost("changeStatus"), Authorize(Roles = "Admin")]
         public IActionResult ChangeStatus(string userName, string status)
         {
             var res = _accountRepo.ChangeStatus(userName, status);
@@ -151,7 +151,7 @@ namespace QLHL.Controllers
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
-        [HttpPut("Ban/{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("Ban/{id}"), Authorize(Roles = "Admin")]
         public IActionResult BanAcc(int id)
         {
             var res = _accountRepo.BanAcc(id);

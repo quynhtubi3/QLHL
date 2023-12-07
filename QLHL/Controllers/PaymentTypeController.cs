@@ -23,7 +23,7 @@ namespace QLHL.Controllers
             if (res == ErrorType.Succeed) return Ok("Added");
             return BadRequest("Failed!");
         }
-        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("{id}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var res = _paymentTypeRepo.Remove(id);

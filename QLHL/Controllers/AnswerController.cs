@@ -38,17 +38,17 @@ namespace QLHL.Controllers
             if (res == ErrorType.Succeed) return Ok("Added");
             return BadRequest("Failed!");
         }
-        [HttpDelete("{id}"), Authorize(Roles = "Admin, Tutor")]
+        [HttpPost("{id}"), Authorize(Roles = "Admin, Tutor")]
         public IActionResult Delete(int id)
         {
             var res = _answerRepo.Delete(id);
             if (res == ErrorType.Succeed) return Ok("Added");
             return NotFound("Not exist!");
         }
-        [HttpGet("MCQ/{id}"), Authorize(Roles = "Admin, Tutor")]
+        [HttpGet("GBQ/{id}"), Authorize(Roles = "Admin, Tutor")]
         public IActionResult GetByExam(Pagination pagination, int id)
         {
-            var res = _answerRepo.GetByExamId(pagination, id);
+            var res = _answerRepo.GetByQuestionId(pagination, id);
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }

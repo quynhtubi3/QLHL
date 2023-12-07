@@ -37,14 +37,14 @@ namespace QLHL.Controllers
             if (res == ErrorType.Succeed) return Ok("Added");
             return BadRequest("Failed!");
         }
-        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("d/{id}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var res = _tutorAssignmentRepo.Delete(id);
             if (res == ErrorType.Succeed) return Ok("Added");
             return NotFound("Not exist!");
         }
-        [HttpPut("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("u/{id}"), Authorize(Roles = "Admin")]
         public IActionResult Update(int id, TutorAssignmentModel model)
         {
             var res = _tutorAssignmentRepo.Update(id, model);

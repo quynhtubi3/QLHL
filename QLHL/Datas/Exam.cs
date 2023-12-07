@@ -19,6 +19,6 @@ namespace QLHL.Datas
 
         public CoursePart CoursePart { get; set; }
         public ExamType ExamType { get; set; }
-        public IEnumerable<Answer> Answers { get; set; }
+        public IEnumerable<Question> Question { get; set; }
     }
 }

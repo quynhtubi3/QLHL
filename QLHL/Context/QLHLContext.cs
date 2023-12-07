@@ -27,5 +27,6 @@ namespace QLHL.Context
         public virtual DbSet<PaymentType> PaymentTypes { get; set; }
         public virtual DbSet<VerifyCode> VerifyCodes { get; set; }
         public virtual DbSet<CoursePart> CourseParts { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
     }
 }

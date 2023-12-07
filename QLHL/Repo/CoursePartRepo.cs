@@ -24,7 +24,8 @@ namespace QLHL.Repo
                 duration = courseModel.duration,
                 partTitle = courseModel.partTitle,
                 createAt = DateTime.Now,
-                updateAt = DateTime.Now,                
+                updateAt = DateTime.Now,
+                index = courseModel.index,
             };
             _context.CourseParts.Add(course);
             _context.SaveChanges();

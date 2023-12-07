@@ -27,15 +27,42 @@ namespace QLHL.Controllers
         [HttpGet, Authorize(Roles = "Admin, Student")]
         public IActionResult GetAll([FromQuery]Pagination pagination)
         {
-            var res = _courseRepo.GetAll(pagination);
-            if (res.data.Count() != 0) return Ok(res);
-            return BadRequest("Null");
+            var role = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value;
+            if (role == "Admin")
+            {
+                var res = _courseRepo.GetAll(pagination);
+                if (res.data.Count() != 0) return Ok(res);
+                return BadRequest("Null");
+            }
+            else
+            {
+                var username = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
+                var res = _courseRepo.GetUnBought(pagination, username);
+                if (res.data.Count() != 0) return Ok(res);
+                return BadRequest("Null");
+            }
+            
         }
         [HttpGet("forStudent"), Authorize(Roles = "Student")]
         public IActionResult GetByStudent([FromQuery] Pagination pagination)
         {
             var username = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
             var res = _courseRepo.GetByStudent(pagination, username);
+            if (res.data.Count() != 0) return Ok(res);
+            return BadRequest("Null");
+        }
+        [HttpGet("getAllForStudent"), Authorize(Roles = "Student")]
+        public IActionResult GetAllByStudent([FromQuery] Pagination pagination)
+        {
+            var res = _courseRepo.GetAll(pagination);
+            if (res.data.Count() != 0) return Ok(res);
+            return BadRequest("Null");
+        }
+        [HttpGet("getDetail"), Authorize(Roles = "Student")]
+        public IActionResult GetDetail([FromQuery] Pagination pagination)
+        {
+            var username = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
+            var res = _courseRepo.GetDetail(pagination, username);
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
@@ -46,7 +73,7 @@ namespace QLHL.Controllers
             if (res == ErrorType.Succeed) return Ok("Added");
             return BadRequest("Failed!");
         }
-        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("{id}"), Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var res = _courseRepo.Delete(id);

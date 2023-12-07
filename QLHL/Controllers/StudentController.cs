@@ -41,28 +41,28 @@ namespace QLHL.Controllers
             if (res == ErrorType.Succeed) return Ok("Succeed");
             return NotFound("Not exist");
         }
-        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("d/{id}"), Authorize(Roles = "Admin")]
         public IActionResult Remove(int id)
         {
             var res = _studentRepo.Remove(id);
             if (res == ErrorType.Succeed) return Ok("Succeed");
             return NotFound("Not exist");
         }
-        [HttpPut("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("u/{id}"), Authorize(Roles = "Admin")]
         public IActionResult Update(int id, StudentModel studentModel)
         {
             var res = _studentRepo.Update(id, studentModel);
             if (res == ErrorType.Succeed) return Ok("Succeed");
             return NotFound("Not exist");
         }
-        [HttpPut("addMoney/{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("addMoney/{id}"), Authorize(Roles = "Admin")]
         public IActionResult AddMoney(int id, int amount)
         {
             var res = _studentRepo.UpdateTotalMoney(id, amount, 1);
             if (res == ErrorType.Succeed) return Ok("Done");
             return NotFound();
         }
-        [HttpPut("updateInfomation"), Authorize(Roles = "Student")]
+        [HttpPost("updateInfomation"), Authorize(Roles = "Student")]
         public IActionResult UpdateInfo(UpdateInfo4Student model)
         {
             var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;

@@ -40,14 +40,14 @@ namespace QLHL.Controllers
             if (res == ErrorType.OutOfTimes) return BadRequest("This student did this exam 3 times!");
             return BadRequest("Failed!");
         }
-        [HttpDelete("{id}"), Authorize(Roles = "Admin, Tutor")]
+        [HttpPost("d/{id}"), Authorize(Roles = "Admin, Tutor")]
         public IActionResult Delete(int id)
         {
             var res = _submissionRepo.Delete(id);
             if (res == ErrorType.Succeed) return Ok("Added");
             return NotFound("Not exist!");
         }
-        [HttpPut("{id}"), Authorize(Roles = "Admin, Tutor")]
+        [HttpPost("u/{id}"), Authorize(Roles = "Admin, Tutor")]
         public IActionResult Update(int id, SubmissionModel model)
         {
             var res = _submissionRepo.Update(id, model);

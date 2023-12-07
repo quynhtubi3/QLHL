@@ -2,6 +2,7 @@
 using QLHL.Enum;
 using QLHL.Helper;
 using QLHL.Models;
+using QLHL.ResultModels;
 
 namespace QLHL.IRepo
 {
@@ -13,5 +14,7 @@ namespace QLHL.IRepo
         ErrorType Add(CourseModel courseModel);
         ErrorType Update(int id, CourseModel courseModel);
         ErrorType Delete(int id);
+        PageResult<Course> GetUnBought(Pagination pagination, string username);
+        PageResult<CourseDetailModel> GetDetail(Pagination pagination, string username);
     }
 }

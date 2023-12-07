@@ -39,14 +39,14 @@ namespace QLHL.Controllers
             if (res == ErrorType.Succeed) return Ok("Added");
             return BadRequest("Failed!");
         }
-        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("d/{id}"), Authorize(Roles = "Admin, Student")]
         public IActionResult Delete(int id)
         {
             var res = _enrollmentRepo.Delete(id);
             if (res == ErrorType.Succeed) return Ok("Added");
             return NotFound("Not exist!");
         }
-        [HttpPut("{id}"), Authorize(Roles = "Admin")]
+        [HttpPost("u/{id}"), Authorize(Roles = "Admin")]
         public IActionResult Update(int id, EnrollmentModel model)
         {
             var res = _enrollmentRepo.Update(id, model);
@@ -60,8 +60,8 @@ namespace QLHL.Controllers
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
-        [HttpGet("student/{id}"), Authorize(Roles = "Admin")]
-        public IActionResult GetByStudent(Pagination pagination, int id)
+        [HttpGet("student/{id}"), Authorize(Roles = "Admin, Student")]
+        public IActionResult GetByStudent([FromQuery]Pagination pagination, int id)
         {
             var res = _enrollmentRepo.GetByStudentId(pagination, id);
             if (res.data.Count() != 0) return Ok(res);
@@ -74,7 +74,7 @@ namespace QLHL.Controllers
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
-        [HttpPut("changeStatus"), Authorize(Roles = "Admin")]
+        [HttpPost("changeStatus"), Authorize(Roles = "Admin")]
         public IActionResult ChangeStatus(int id, int statusId)
         {
             var res = _enrollmentRepo.ChangeStatus(id, statusId);

@@ -4,6 +4,8 @@ using QLHL.Enum;
 using QLHL.Helper;
 using QLHL.IRepo;
 using QLHL.Models;
+using QLHL.ResultModels;
+using System.Collections.Generic;
 
 namespace QLHL.Repo
 {
@@ -76,6 +78,55 @@ namespace QLHL.Repo
                         }                        
                     }
                 }
+            }
+            var res = PageResult<Course>.ToPageResult(pagination, lst);
+            pagination.totalCount = lst.Count();
+            return new PageResult<Course>(pagination, res);
+        }
+
+        public PageResult<CourseDetailModel> GetDetail(Pagination pagination, string username)
+        {
+            var currentAccount = _context.Accounts.FirstOrDefault(x => x.email == username);
+            var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == currentAccount.accountID);
+            var lstFee = _context.Fees.Where(x => x.studentID == currentStudent.studentID && x.status == "Done").ToList();
+            List<CourseDetailModel> resLst = new List<CourseDetailModel>();
+            foreach(var course in _context.Courses.ToList())
+            {
+                if (lstFee.FindIndex(x => x.courseID == course.courseID) != -1)
+                {
+                    var coursePartLst = _context.CourseParts.Where(x => x.courseID == course.courseID).ToList();
+                    var sortedCoursePart = coursePartLst.OrderBy(x => x.index).ToList();
+                    foreach (var courePart in sortedCoursePart)
+                    { 
+                        var lectureLst = _context.Lectures.Where(x => x.coursePartID == courePart.coursePartID).ToList();
+                        var sortedL = lectureLst.OrderBy(x => x.index).ToList();
+                        var examLst = _context.Exams.Where(x => x.coursePartID == courePart.coursePartID).ToList();
+                        resLst.Add(new CourseDetailModel()
+                        {
+                            coursePartID = courePart.coursePartID,
+                            coursePartName = courePart.partTitle,
+                            classes = sortedL,
+                            exams = examLst,
+                        });
+                    }
+                }
+            }
+            var res = PageResult<CourseDetailModel>.ToPageResult(pagination, resLst);
+            pagination.totalCount = resLst.Count();
+            return new PageResult<CourseDetailModel>(pagination, res);
+        }
+
+        public PageResult<Course> GetUnBought(Pagination pagination, string username)
+        {
+            var currentAccount = _context.Accounts.FirstOrDefault(x => x.email == username);
+            var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == currentAccount.accountID);
+            var lstEnroll = _context.Enrollments.Where(x => x.studentID == currentStudent.studentID).ToList();
+            Console.WriteLine(lstEnroll.Count());
+            List<Course> lst = new List<Course>();
+            foreach (var course in _context.Courses.ToList())
+            {
+                if (lstEnroll.FindIndex(x => x.courseID == course.courseID) == -1)
+                    lst.Add(course);
             }
             var res = PageResult<Course>.ToPageResult(pagination, lst);
             pagination.totalCount = lst.Count();

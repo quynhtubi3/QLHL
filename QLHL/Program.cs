@@ -24,6 +24,7 @@ builder.Services.AddScoped<ITutorRepo, TutorRepo>();
 builder.Services.AddScoped<IStatusTypeRepo, StatusTypeRepo>();
 builder.Services.AddScoped<IFeeRepo, FeeRepo>();
 builder.Services.AddScoped<IPaymentHistoryRepo, PaymentHistoryRepo>();
+builder.Services.AddScoped<IQuestionRepo, QuestionRepo>();
 builder.Services.AddAuthentication(option =>
 {
     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

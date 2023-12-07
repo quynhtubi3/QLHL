@@ -7,6 +7,7 @@ namespace QLHL.Datas
     public class CoursePart
     {
         [Key] public int coursePartID { get; set; }
+        public int index { get; set; }
         [Required] public int courseID { get; set; }
         [Required] public string partTitle { get; set; }
         [Required] public int amout { get; set; }

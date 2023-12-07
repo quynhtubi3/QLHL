@@ -16,12 +16,12 @@ namespace QLHL.Repo
         }
         public ErrorType Add(AnswerModel answerModel)
         {
-            var check = _context.Exams.FirstOrDefault(x => x.examID == answerModel.examID);
+            var check = _context.Questions.FirstOrDefault(x => x.examID == answerModel.questionID);
             if (check != null)
             {
                 Answer answer = new()
                 {
-                    examID = answerModel.examID,
+                    questionID = answerModel.questionID,
                     rightAnswer = answerModel.rightAnswer,
                     content = answerModel.content,
                     createAt = DateTime.Now,
@@ -60,10 +60,10 @@ namespace QLHL.Repo
             return null;
         }
 
-        public PageResult<Answer> GetByExamId(Pagination pagination, int id)
+        public PageResult<Answer> GetByQuestionId(Pagination pagination, int id)
         {
-            var res = PageResult<Answer>.ToPageResult(pagination, _context.Answers.Where(x => x.examID == id).AsQueryable());
-            pagination.totalCount = _context.Answers.Where(x => x.examID == id).AsQueryable().Count();
+            var res = PageResult<Answer>.ToPageResult(pagination, _context.Answers.Where(x => x.questionID == id).AsQueryable());
+            pagination.totalCount = _context.Answers.Where(x => x.questionID == id).AsQueryable().Count();
             return new PageResult<Answer>(pagination, res);
         }        
     }

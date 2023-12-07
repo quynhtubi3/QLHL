@@ -6,7 +6,10 @@ namespace QLHL.Helper
     {
         public string? fullName { get; set; }
         public string contactNumber { get; set; }
-        [EmailAddress]
-        public string? email { get; set; }
+        public int provinceID { get; set; }
+        public int districtID { get; set; }
+        public int communeID { get; set; }
+
+
     }
 }

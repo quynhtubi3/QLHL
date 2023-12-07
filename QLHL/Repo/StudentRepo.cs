@@ -112,6 +112,9 @@ namespace QLHL.Repo
             if (model.fullName != null) currentStudent.fullName = model.fullName;
             if (model.contactNumber == null) model.contactNumber = "0";
             if (model.contactNumber != null) currentStudent.contactNumber = model.contactNumber;
+            currentStudent.provinceID = model.provinceID;
+            currentStudent.districtID = model.districtID;
+            currentStudent.communeID = model.communeID;
             _context.Students.Update(currentStudent);
             _context.Accounts.Update(currentAccount);
             _context.SaveChanges();

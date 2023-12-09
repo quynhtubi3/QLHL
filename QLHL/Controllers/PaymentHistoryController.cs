@@ -32,7 +32,7 @@ namespace QLHL.Controllers
             return NotFound();
         }
         [HttpGet("forStudent"), Authorize(Roles = "Student")]
-        public IActionResult ForStudent(Pagination pagination)
+        public IActionResult ForStudent([FromQuery]Pagination pagination)
         {
             var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
             var res = _paymentHistoryRepo.ForStudent(pagination, userName);

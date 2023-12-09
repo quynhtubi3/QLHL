@@ -17,7 +17,7 @@ namespace QLHL.Controllers
         {
             _courseRepo = new CourseRepo();
         }
-        [HttpGet("{id}"), Authorize(Roles = "Admin")]
+        [HttpGet("{id}"), Authorize(Roles = "Admin, Student")]
         public ActionResult GetById(int id)
         {
             var res = _courseRepo.GetById(id);

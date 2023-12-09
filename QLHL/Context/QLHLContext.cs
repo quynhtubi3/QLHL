@@ -7,7 +7,7 @@ namespace QLHL.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server = DESKTOP-KBA58DG\\SQLEXPRESS; Database = QLHL; Trusted_Connection = True; TrustServerCertificate = True;");
+            optionsBuilder.UseSqlServer("Server = DUONGDOO\\SQLEXPRESS; Database = QLHL; Trusted_Connection = True; TrustServerCertificate = True;");
         }
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }

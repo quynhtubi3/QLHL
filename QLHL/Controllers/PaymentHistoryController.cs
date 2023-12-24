@@ -53,7 +53,7 @@ namespace QLHL.Controllers
             return NotFound();
         }
         [HttpGet("std/{id}"), Authorize(Roles = "Admin")]
-        public IActionResult GetByStudentID(Pagination pagination, int id)
+        public IActionResult GetByStudentID([FromQuery]Pagination pagination, int id)
         {
             var res = _paymentHistoryRepo.GetByStudentID(pagination, id);
             if (res.data.Count() != 0) return Ok(res);

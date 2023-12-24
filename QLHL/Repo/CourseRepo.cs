@@ -84,6 +84,29 @@ namespace QLHL.Repo
             return new PageResult<Course>(pagination, res);
         }
 
+        public PageResult<Course> GetByStudentID(Pagination pagination, int id)
+        {
+            var lstEnroll = _context.Enrollments.Where(x => x.studentID == id).ToList();
+            List<Course> lst = new List<Course>();
+            foreach (var item in lstEnroll)
+            {
+                foreach (var course in _context.Courses.ToList())
+                {
+                    if (course.courseID == item.courseID)
+                    {
+                        var check = _context.Fees.FirstOrDefault(x => x.studentID == id && x.courseID == course.courseID);
+                        if (check != null && check.status == "Done")
+                        {
+                            lst.Add(course);
+                        }
+                    }
+                }
+            }
+            var res = PageResult<Course>.ToPageResult(pagination, lst);
+            pagination.totalCount = lst.Count();
+            return new PageResult<Course>(pagination, res);
+        }
+
         public PageResult<CourseDetailModel> GetDetail(Pagination pagination, string username)
         {
             var currentAccount = _context.Accounts.FirstOrDefault(x => x.email == username);
@@ -107,6 +130,7 @@ namespace QLHL.Repo
                             coursePartName = courePart.partTitle,
                             classes = sortedL,
                             exams = examLst,
+                            courseID = courePart.courseID,
                         });
                     }
                 }
@@ -116,12 +140,51 @@ namespace QLHL.Repo
             return new PageResult<CourseDetailModel>(pagination, res);
         }
 
+        public PageResult<CourseDetailModel> GetDetailbyCourseID(Pagination pagination, int id)
+        {
+            var currentCourse = _context.Courses.FirstOrDefault(x => x.courseID == id);
+            List<CourseDetailModel> resLst = new List<CourseDetailModel>();
+            var coursePartLst = _context.CourseParts.Where(x => x.courseID == id).ToList();
+            var sortedCoursePart = coursePartLst.OrderBy(x => x.index).ToList();
+            foreach (var courePart in sortedCoursePart)
+            {
+                var lectureLst = _context.Lectures.Where(x => x.coursePartID == courePart.coursePartID).ToList();
+                var sortedL = lectureLst.OrderBy(x => x.index).ToList();
+                var examLst = _context.Exams.Where(x => x.coursePartID == courePart.coursePartID).ToList();
+                resLst.Add(new CourseDetailModel()
+                {
+                    coursePartID = courePart.coursePartID,
+                    coursePartName = courePart.partTitle,
+                    classes = sortedL,
+                    exams = examLst,
+                    courseID = courePart.courseID,
+                    index = courePart.index,
+                });
+            }               
+            var res = PageResult<CourseDetailModel>.ToPageResult(pagination, resLst);
+            pagination.totalCount = resLst.Count();
+            return new PageResult<CourseDetailModel>(pagination, res);
+        }
+
+        public PageResult<Course> GetUnassignment(Pagination pagination, int id)
+        {
+            var lstAssign = _context.TutorAssignments.Where(x => x.tutorID == id).ToList();
+            List<Course> lst = new List<Course>();
+            foreach (var course in _context.Courses.ToList())
+            {
+                if (lstAssign.FindIndex(x => x.courseID == course.courseID) == -1)
+                    lst.Add(course);
+            }
+            var res = PageResult<Course>.ToPageResult(pagination, lst);
+            pagination.totalCount = lst.Count();
+            return new PageResult<Course>(pagination, res);
+        }
+
         public PageResult<Course> GetUnBought(Pagination pagination, string username)
         {
             var currentAccount = _context.Accounts.FirstOrDefault(x => x.email == username);
             var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == currentAccount.accountID);
             var lstEnroll = _context.Enrollments.Where(x => x.studentID == currentStudent.studentID).ToList();
-            Console.WriteLine(lstEnroll.Count());
             List<Course> lst = new List<Course>();
             foreach (var course in _context.Courses.ToList())
             {

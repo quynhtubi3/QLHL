@@ -11,5 +11,6 @@ namespace QLHL.IRepo
         CoursePart GetById(int id);
         ErrorType Add(CoursePartModel courseModel);
         ErrorType Delete(int id);
+        PageResult<CoursePart> GetByCourseID(Pagination pagination, int id);
     }
 }

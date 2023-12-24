@@ -6,10 +6,10 @@ namespace QLHL.Models
     public class CourseModel
     {
         [Required] public string CourseName { get; set; } = null!;
-        [Required] public string CourseDescription { get; set; } = null!;
-        public int tutorID { get; set; }
+        public string CourseDescription { get; set; } = null!;
+        [Required] public int tutorID { get; set; }
         [Required] public int Cost { get; set; }
-        [Required] public DateTime CourseStartDate { get; set; }
-        [Required] public DateTime CourseEndDate { get; set; }
+        public DateTime CourseStartDate { get; set; }
+        public DateTime CourseEndDate { get; set; }
     }
 }

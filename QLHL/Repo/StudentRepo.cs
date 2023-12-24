@@ -56,7 +56,7 @@ namespace QLHL.Repo
 
         public Student GetById(int id)
         {
-            var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == id);
+            var currentStudent = _context.Students.FirstOrDefault(x => x.studentID == id);
             if (currentStudent != null)
             {
                 return currentStudent;
@@ -74,7 +74,7 @@ namespace QLHL.Repo
 
         public ErrorType Remove(int id)
         {
-            var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == id);
+            var currentStudent = _context.Students.FirstOrDefault(x => x.studentID == id);
             if (currentStudent != null)
             {
                 _context.Students.Remove(currentStudent);
@@ -86,7 +86,7 @@ namespace QLHL.Repo
 
         public ErrorType Update(int id, StudentModel studentModel)
         {
-            var currentStudent = _context.Students.FirstOrDefault(x => x.accountID == id);
+            var currentStudent = _context.Students.FirstOrDefault(x => x.studentID == id);
             var newAccount = _context.Accounts.FirstOrDefault(x => x.accountID == studentModel.accountId);
             if (currentStudent != null && _context.Decentralizations.
                 FirstOrDefault(x => x.decentralizationID == newAccount.decentralizationId).authorityName == "Student")

@@ -148,7 +148,7 @@ namespace QLHL.Controllers
             return BadRequest("Not exist");
         }
         [HttpGet, Authorize(Roles = "Admin")]
-        public IActionResult ShowAll(Pagination pagination)
+        public IActionResult ShowAll([FromQuery]Pagination pagination)
         {
             var res = _accountRepo.GetListAccount(pagination);
             if (res.data.Count() != 0) return Ok(res);
@@ -160,6 +160,12 @@ namespace QLHL.Controllers
             var res = _accountRepo.GetByDec(pagination, id);
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
+        }
+        [HttpGet("getAvailable"), Authorize(Roles = "Admin")]
+        public IActionResult GetAvailableAccount([FromQuery]Pagination pagination, int id)
+        {
+            var res = _accountRepo.GetAvailableAccount(pagination, id);
+            return Ok(res);
         }
         [HttpPost("Ban/{id}"), Authorize(Roles = "Admin")]
         public IActionResult BanAcc(int id)

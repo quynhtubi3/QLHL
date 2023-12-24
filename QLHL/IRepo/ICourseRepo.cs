@@ -16,5 +16,8 @@ namespace QLHL.IRepo
         ErrorType Delete(int id);
         PageResult<Course> GetUnBought(Pagination pagination, string username);
         PageResult<CourseDetailModel> GetDetail(Pagination pagination, string username);
+        PageResult<CourseDetailModel> GetDetailbyCourseID(Pagination pagination, int id);
+        PageResult<Course> GetByStudentID(Pagination pagination, int id);
+        PageResult<Course> GetUnassignment(Pagination pagination, int id);
     }
 }

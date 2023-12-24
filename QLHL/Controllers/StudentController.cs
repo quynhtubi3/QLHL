@@ -28,14 +28,14 @@ namespace QLHL.Controllers
             return NotFound("Not exist");
         }
         [HttpGet, Authorize(Roles = "Admin")]
-        public IActionResult GetAll(Pagination pagination)
+        public IActionResult GetAll([FromQuery]Pagination pagination)
         {
             var res = _studentRepo.GetAll(pagination);
             if (res.data.Count() == 0) return BadRequest("Null");
             return Ok(res);
         }
         [HttpPost, Authorize(Roles = "Admin")]
-        public IActionResult Add(StudentModel studentModel)
+        public IActionResult Add([FromBody]StudentModel studentModel)
         {
             var res = _studentRepo.Add(studentModel);
             if (res == ErrorType.Succeed) return Ok("Succeed");

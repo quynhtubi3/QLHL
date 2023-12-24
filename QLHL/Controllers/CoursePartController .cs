@@ -31,6 +31,13 @@ namespace QLHL.Controllers
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
+        [HttpGet("byCourseID"), Authorize(Roles = "Admin")]
+        public IActionResult GetByCourseID([FromQuery]Pagination pagination, int id)
+        {
+            var res = _courseRepo.GetByCourseID(pagination, id);
+            if (res.data.Count() != 0) return Ok(res);
+            return BadRequest("Null");
+        }
         [HttpPost, Authorize(Roles = "Admin")]
         public IActionResult Add(CoursePartModel model)
         {

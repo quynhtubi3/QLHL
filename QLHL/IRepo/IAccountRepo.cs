@@ -19,6 +19,7 @@ namespace QLHL.IRepo
         string CheckVerifyCodeForgotPassword(ForGotPasswordScreenModel model);
         string ForgotPassword (ForgotPasswordRequest res);
         string ResetPassword(ResetPasswordRequest res);
+        PageResult<Account> GetAvailableAccount(Pagination pagination, int id);
 
         //bool RenewToken(string username);
     }

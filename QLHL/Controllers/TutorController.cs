@@ -25,7 +25,7 @@ namespace QLHL.Controllers
             return NotFound("Not exist");
         }
         [HttpGet, Authorize(Roles = "Admin")]
-        public IActionResult GetAll(Pagination pagination)
+        public IActionResult GetAll([FromQuery]Pagination pagination)
         {
             var res = _tutorRepo.GetAll(pagination);
             if (res.data.Count() != 0) return Ok(res);

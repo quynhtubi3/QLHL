@@ -51,6 +51,13 @@ namespace QLHL.Repo
             return new PageResult<CoursePart>(pagination, res);
         }
 
+        public PageResult<CoursePart> GetByCourseID(Pagination pagination, int id)
+        {
+            var res = PageResult<CoursePart>.ToPageResult(pagination, _context.CourseParts.Where(x => x.courseID == id).AsQueryable());
+            pagination.totalCount = _context.CourseParts.AsQueryable().Count();
+            return new PageResult<CoursePart>(pagination, res);
+        }
+
         public CoursePart GetById(int id)
         {
             var currentCourse = _context.CourseParts.FirstOrDefault(x => x.coursePartID == id);

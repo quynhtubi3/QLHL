@@ -52,9 +52,13 @@ namespace QLHL.Repo
         public ErrorType BanAcc(int id)
         {
             var current = _context.Accounts.FirstOrDefault(x => x.accountID == id);
-            if (current != null && current.Decentralization.authorityName != "Admin")
+            if (current != null)
             {
-                current.status = "Banned";
+                if (current.status == "Working")
+                {
+                    current.status = "Banned";
+                }
+                else current.status = "Working";
                 _context.Accounts.Update(current);
                 _context.SaveChanges();
                 return ErrorType.Succeed;
@@ -320,6 +324,35 @@ namespace QLHL.Repo
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
 
-       
+        public PageResult<Account> GetAvailableAccount(Pagination pagination, int id)
+        {
+            var lstAccount = _context.Accounts.Where(x => x.decentralizationId == id).ToList();
+            List<Account> accounts = new List<Account>();
+            if (id == 2) 
+            {
+                var lstStudent = _context.Students.ToList();
+                foreach (var account in lstAccount)
+                {
+                    if (!lstStudent.Any(x => x.accountID == account.accountID))
+                    {
+                        accounts.Add(account);
+                    }
+                }
+            }
+            else
+            {
+                var lstTutor = _context.Tutors.ToList();
+                foreach (var account in lstAccount)
+                {
+                    if (!lstTutor.Any(x => x.accountID == account.accountID))
+                    {
+                        accounts.Add(account);
+                    }
+                }
+            }
+            var res = PageResult<Account>.ToPageResult(pagination, accounts);
+            pagination.totalCount = accounts.Count();
+            return new PageResult<Account>(pagination, res);
+        }
     }
 }

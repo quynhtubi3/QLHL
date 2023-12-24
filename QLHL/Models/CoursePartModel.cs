@@ -7,7 +7,7 @@ namespace QLHL.Models
         [Required] public int courseID { get; set; }
         public int index { get; set; }
         [Required] public string partTitle { get; set; }
-        [Required] public int amout { get; set; }
-        [Required] public int duration { get; set; }
+         public int amout { get; set; }
+         public int duration { get; set; }
     }
 }

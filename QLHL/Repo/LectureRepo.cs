@@ -31,7 +31,7 @@ namespace QLHL.Repo
                     isAvailable = false,
                     createAt = DateTime.Now,
                     updateAt = DateTime.Now,
-                    index = length + 1,
+                    index = lectureModel.index,
                 };
                 _context.Lectures.Add(lecture);
                 _context.SaveChanges();

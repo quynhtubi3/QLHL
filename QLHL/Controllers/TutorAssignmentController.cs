@@ -45,7 +45,7 @@ namespace QLHL.Controllers
             return NotFound("Not exist!");
         }
         [HttpPost("u/{id}"), Authorize(Roles = "Admin")]
-        public IActionResult Update(int id, TutorAssignmentModel model)
+        public IActionResult Update(int id, [FromQuery]TutorAssignmentModel model)
         {
             var res = _tutorAssignmentRepo.Update(id, model);
             if (res == ErrorType.Succeed) return Ok("Added");
@@ -59,7 +59,7 @@ namespace QLHL.Controllers
             return BadRequest("Null");
         }
         [HttpGet("tutor/{id}"), Authorize(Roles = "Admin")]
-        public IActionResult GetByStudent(Pagination pagination, int id)
+        public IActionResult GetByStudent([FromQuery]Pagination pagination, int id)
         {
             var res = _tutorAssignmentRepo.GetByTutorId(pagination, id);
             if (res.data.Count() != 0) return Ok(res);

@@ -28,7 +28,7 @@ namespace QLHL.Repo
 
         public bool AddAccount(AccountModel model)
         {
-            if (_context.Decentralizations.Any(x => x.decentralizationID == model.DecentralizationId))
+            if (_context.Decentralizations.Any(x => x.decentralizationID == model.DecentralizationId) && !(_context.Accounts.Any(x => x.email == model.email)))
             {
                 Account Account = new()
                 {

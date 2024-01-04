@@ -23,8 +23,8 @@ namespace QLHL.Controllers
             if (res != null) return Ok(res);
             return NotFound("Not exist");
         }
-        [HttpGet, Authorize(Roles = "Admin")]
-        public IActionResult GetAll(Pagination pagination)
+        [HttpGet, Authorize(Roles = "Admin, Student")]
+        public IActionResult GetAll([FromQuery]Pagination pagination)
         {
             var res = _tutorAssignmentRepo.GetAll(pagination);
             if (res.data.Count() != 0) return Ok(res);
@@ -65,15 +65,14 @@ namespace QLHL.Controllers
             if (res.data.Count() != 0) return Ok(res);
             return BadRequest("Null");
         }
-        [HttpGet("course/{id}"), Authorize(Roles = "Admin")]
-        public IActionResult GetByCourse(Pagination pagination, int id)
+        [HttpGet("course/{id}"), Authorize(Roles = "Admin, Student")]
+        public IActionResult GetByCourse([FromQuery]Pagination pagination, int id)
         {
             var res = _tutorAssignmentRepo.GetByCourseId(pagination, id);
-            if (res.data.Count() != 0) return Ok(res);
-            return BadRequest("Null");
+            return Ok(res);
         }
         [HttpGet("forTutor"), Authorize(Roles = "Tutor")]
-        public IActionResult GetByStudent(Pagination pagination)
+        public IActionResult GetByStudent([FromQuery]Pagination pagination)
         {
             var userName = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "username").Value;
             var res = _tutorAssignmentRepo.GetForTutor(pagination, userName);

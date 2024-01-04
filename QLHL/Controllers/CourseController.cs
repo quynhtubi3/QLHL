@@ -17,18 +17,18 @@ namespace QLHL.Controllers
         {
             _courseRepo = new CourseRepo();
         }
-        [HttpGet("{id}"), Authorize(Roles = "Admin, Student")]
+        [HttpGet("{id}"), Authorize(Roles = "Admin, Student, Tutor")]
         public ActionResult GetById(int id)
         {
             var res = _courseRepo.GetById(id);
             if (res != null) return Ok(res);
             return NotFound("Not exist");
         }
-        [HttpGet, Authorize(Roles = "Admin, Student")]
+        [HttpGet, Authorize(Roles = "Admin, Student, Tutor")]
         public IActionResult GetAll([FromQuery]Pagination pagination)
         {
             var role = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value;
-            if (role == "Admin")
+            if (role == "Admin" || role == "Tutor")
             {
                 var res = _courseRepo.GetAll(pagination);
                 if (res.data.Count() != 0) return Ok(res);

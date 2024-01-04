@@ -27,7 +27,7 @@ namespace QLHL.Controllers
             }
             return NotFound("Not exist");
         }
-        [HttpGet, Authorize(Roles = "Admin")]
+        [HttpGet, Authorize(Roles = "Admin, Tutor")]
         public IActionResult GetAll([FromQuery]Pagination pagination)
         {
             var res = _studentRepo.GetAll(pagination);

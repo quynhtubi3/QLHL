@@ -25,7 +25,7 @@ namespace QLHL.Controllers
             if (res != null) return Ok(res);
             return NotFound("Not exist");
         }
-        [HttpGet, Authorize(Roles = "Admin")]
+        [HttpGet, Authorize(Roles = "Admin, Tutor")]
         public IActionResult GetAll([FromQuery]Pagination pagination)
         {
             var res = _enrollmentRepo.GetAll(pagination);

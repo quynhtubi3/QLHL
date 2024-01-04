@@ -16,7 +16,9 @@ namespace QLHL.Repo
         }
         public ErrorType Add(TutorAssignmentModel tutorAssignmentModel)
         {
-            bool check = _context.Tutors.Any(x => x.tutorID == tutorAssignmentModel.tutorID) && _context.Courses.Any(x => x.courseID == tutorAssignmentModel.courseID);
+            bool check = _context.Tutors.Any(x => x.tutorID == tutorAssignmentModel.tutorID) 
+                && _context.Courses.Any(x => x.courseID == tutorAssignmentModel.courseID)
+                && (!(_context.TutorAssignments.Any(x => x.tutorID == tutorAssignmentModel.tutorID && x.courseID == tutorAssignmentModel.courseID)));
             if (check)
             {
                 TutorAssignment tutorAssignment = new TutorAssignment()

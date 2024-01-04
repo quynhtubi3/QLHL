@@ -56,8 +56,7 @@ namespace QLHL.Controllers
         public IActionResult GetByStudentID([FromQuery]Pagination pagination, int id)
         {
             var res = _paymentHistoryRepo.GetByStudentID(pagination, id);
-            if (res.data.Count() != 0) return Ok(res);
-            return NotFound();
+            return Ok(res);
         }
     }
 }

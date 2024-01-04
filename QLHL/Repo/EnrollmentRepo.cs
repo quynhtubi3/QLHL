@@ -39,7 +39,7 @@ namespace QLHL.Repo
                     updateAt = DateTime.Now
                 };
                 _context.Enrollments.Add(enrollment);
-                _context.SaveChanges();
+                
                 _tutorAssignmentRepo.UpdateNumberOfStudent(lstC[0].tutorAssignmentID, 1);
                 var currentCourse = _context.Courses.FirstOrDefault(x => x.courseID == enrollmentModel.CourseID);
                 FeeModel model = new FeeModel()
@@ -49,6 +49,7 @@ namespace QLHL.Repo
                     cost = currentCourse.cost
                 };
                 _feeRepo.Add(model);
+                _context.SaveChanges();
                 return ErrorType.Succeed;
             }
             return ErrorType.NotExist;
